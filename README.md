@@ -1,5 +1,4 @@
 liam andell
-## Weather App
 Table of Contents
 location
 bio
