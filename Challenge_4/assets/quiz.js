@@ -5,25 +5,25 @@ const questions = [ // array of objects
         // question 0
         question: "What is an array in JavaScript?",
         answers: ["1. strings", "2.const words = ['hello', 'world', 'welcome']", "3. alerts", "4. variables"],
-        correctAnswer: "2"
+        correctAnswer: "1"
     },
     {
         // question 1
         question: "What is a function in JavaScript?",
         answers: ["1. a string", "2. a set of statements that performs a task or calculates a value", "3. X", "4. square brackets"],
-        correctAnswer: "2"
+        correctAnswer: "1"
     },
     {
         // question 2
         question: "Arrays in Javascript can be used to store ____.",
         answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
-        correctAnswer: "1"
+        correctAnswer: "0"
     },
     {
         // question 3
         question: "What does this "==="  mean in JavaScript?",
         answers: ["1. to comment out code", "2. end a string", "3. quotes", "4. Equal value "],
-        correctAnswer: "4"
+        correctAnswer: "3"
     },
     {
         // question 4
