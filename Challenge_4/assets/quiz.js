@@ -34,7 +34,7 @@ const questions = [ // array of objects
 ];
 const initialselement=document.querySelector("#initials")
 const submitScrBtn=document.querySelector("#submit-score")
-const goBackBtn=document.querySelector("#goback")
+const goBackBtn=document.querySelector("#goBack")
 const questionEl=document.querySelector("#question")
 const ans1Btn=document.querySelector("#answer1")
 const ans2Btn=document.querySelector("#answer2")
@@ -42,7 +42,15 @@ const ans3Btn=document.querySelector("#answer3")
 const ans4Btn=document.querySelector("#answer4")
 const timeEl=document.querySelector(".time")
 const p=document.querySelector("#yaynay")
+const finalEl=document.querySelector("#final")
+const scoreListEl=document.querySelector(".score")
+const highscoresEl=document.querySelector("#score-list")
+const finalScoreEl=document.querySelector("#score")
+const viewScoresBtn=document.querySelector("#view-scores")
+
+
 let score=0
+
 
 const introEl=document.querySelector("#start")
 const questionsEl=document.querySelector("#questions")
@@ -60,6 +68,9 @@ function setTime() {
             clearInterval(timerInterval);
             questionsEl.style.display = "none";
             finalEl.style.display = "block";
+            storeScores();
+            displayScores();
+            finalScoreEl.textContent = `Your final score is points: ${score} time:${secondsLeft}`;
             //scoreEl.textContent = secondsLeft;
         }
     }, 1000);
@@ -80,33 +91,38 @@ function startQuiz() {
 function setQuestion(id) {
     if (id < questions.length) {
         questionEl.textContent = questions[id].question;
-        ans1Btn.textContent = questions[id].answers[2];
-        ans2Btn.textContent = questions[id].answers[2];
-        ans3Btn.textContent = questions[id].answers[1];
-        ans4Btn.textContent = questions[id].answers[4];
+        ans1Btn.textContent = questions[id].answers[0];
+        ans2Btn.textContent = questions[id].answers[1];
+        ans3Btn.textContent = questions[id].answers[2];
+        ans4Btn.textContent = questions[id].answers[3];
+    
     }
 }
 
 // function to check answer and then move to next question
 function checkAnswer(event) {
     event.preventDefault();
+    p.style.display = 'block'
+;
+
 
 
     // time out after 1 second
     setTimeout(function () {
         p.style.display = 'none';
     }, 1000);
-
+    console.log(questions[questionCount].correctAnswer, event.target.value);
     // answer checker
     if (questions[questionCount].correctAnswer === event.target.value) {
+        
         p.textContent = "Correct!";
+        score+=10
     } else if (questions[questionCount].correctAnswer !== event.target.value) {
         secondsLeft = secondsLeft - 5;
         p.textContent = "Wrong!";
     }
 // Add to local storage
-storeScores();
-displayScores();
+
     // increment so the questions index is increased
     if (questionCount < questions.length) {
         questionCount++;
@@ -121,7 +137,7 @@ function addScore(event) {
     finalEl.style.display = "none";
     highscoresEl.style.display = "block";
 
-    let init = initialsInput.value.toUpperCase();
+    let init = initialselement.value.toUpperCase();
     scoreList.push({ initials: init, score: secondsLeft });
 }
 
@@ -186,8 +202,7 @@ viewScrBtn.addEventListener("click", function () {
         highscoresEl.style.display = "block";
     } else if (highscoresEl.style.display === "block") {
         highscoresEl.style.display = "none";
-    } else {
-        return alert("No scores to show.");
+
     }
 });
 
@@ -207,6 +222,23 @@ submitScrBtn.addEventListener("click", addScore);
 goBackBtn.addEventListener("click", function(){
         highscoresEl.style.display = "none";
         introEl.style.display = "block";
+
         secondsLeft = 75;
         timeEl.textContent = `Time:${secondsLeft}s`;
+        questionCount = 0;
+
      })
+     viewScoresBtn.addEventListener("click", function(event){
+        event.preventDefault();
+        const quickHighScores=JSON.parse(localStorage.getItem("scoreList"))||[]
+        quickHighScores.forEach(function(score){
+            const li=document.createElement("li")
+            li.textContent=`${score.initials} : ${score.score}`
+            const quickScoresEl=document.querySelector("#quickScores")
+            quickScoresEl.appendChild(li)
+            setTimeout(function(){
+                quickScoresEl.removeChild(li)
+            },2000)
+        })
+     })
+
